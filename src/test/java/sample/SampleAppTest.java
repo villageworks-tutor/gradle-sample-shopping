@@ -33,7 +33,7 @@ class SampleAppTest {
 		
 		// リンク「JSPサンプル」のクリックによるJSPサンプルへの画面遷移の確認
 		$("#sample").click();
-		$("#sample").shouldBe(visible);
+		$("#db_sample").shouldBe(visible);
 		sleep(2000);
 		
 	}
