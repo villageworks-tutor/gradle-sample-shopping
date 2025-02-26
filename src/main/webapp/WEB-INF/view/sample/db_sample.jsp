@@ -5,7 +5,7 @@
 	<meta charset="UTF-8">
 	<title>${title}</title>
 </head>
-<body>
+<body id="db_sample">
 	<header>
 		<h1>${title}</h1>
 		<div>

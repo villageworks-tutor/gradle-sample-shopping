@@ -75,11 +75,23 @@ public class SampleServlet extends HttpServlet {
 		} else if ("category".equals(action)) {
 			// リクエストパラメータを取得
 			String categoryIdString = request.getParameter("categoryId");
+			
+			// 取得した商品カテゴリのデータ型変換
+			int categoryId = Integer.parseInt(categoryIdString);
+			// アプリケーションスコープに登録されているカテゴリリストからカテゴリ名を取得
+			@SuppressWarnings("unchecked")
+			List<Category> categories = (List<Category>) getServletContext().getAttribute("categories");
+			String categoryName = "";
+			for (Category category : categories) {
+				if (category.getId() == categoryId) {
+					categoryName = category.getName();
+					break;
+				}
+			}
+			
 			// 商品カテゴリに含まれる商品のリストの初期化
 			List<Item> list = new ArrayList<Item>();
 			try {
-				// 商品カテゴリのデータ型変換
-				int categoryId = Integer.parseInt(categoryIdString);
 				// 商品カテゴリーに含まれる商品を取得
 				ItemDAO dao = new ItemDAO();
 				list = dao.findByCategoryId(categoryId);
@@ -88,7 +100,7 @@ public class SampleServlet extends HttpServlet {
 			}
 			// 次画面に引き継ぐ値をスコープに登録
 			request.setAttribute("title", "データベース連携サンプル");
-			request.setAttribute("category", "選択されたカテゴリ");
+			request.setAttribute("category", categoryName);
 			request.setAttribute("count", list.size());
 			request.setAttribute("items", list);
 			// 遷移先JSP
