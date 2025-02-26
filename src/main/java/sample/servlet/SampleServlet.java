@@ -11,7 +11,9 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+import sample.bean.Category;
 import sample.bean.Item;
+import sample.dao.CategoryDAO;
 import sample.dao.DAOException;
 import sample.dao.ItemDAO;
 
@@ -22,6 +24,28 @@ import sample.dao.ItemDAO;
 public class SampleServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
+	@Override
+	public void init() throws ServletException {
+		// アプリケーションスコープからカテゴリリストを取得
+		@SuppressWarnings("unchecked")
+		List<Category> list = (List<Category>) getServletContext().getAttribute("categories");
+		// カテゴリリストが存在する場合：処理をせずに終了
+		if (list != null) {
+			return;
+		}
+		// カテゴリが存在しない場合：データベースから取得
+		try {
+			// カテゴリリストを初期化
+			list = new ArrayList<Category>();
+			CategoryDAO dao = new CategoryDAO();
+			list = dao.findAll();
+			getServletContext().setAttribute("categories", list);
+		} catch (DAOException e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
@@ -49,6 +73,24 @@ public class SampleServlet extends HttpServlet {
 			// 遷移先JSP
 			nextJSP = "/WEB-INF/view/sample/db_sample.jsp";
 		} else if ("category".equals(action)) {
+			// リクエストパラメータを取得
+			String categoryIdString = request.getParameter("categoryId");
+			// 商品カテゴリに含まれる商品のリストの初期化
+			List<Item> list = new ArrayList<Item>();
+			try {
+				// 商品カテゴリのデータ型変換
+				int categoryId = Integer.parseInt(categoryIdString);
+				// 商品カテゴリーに含まれる商品を取得
+				ItemDAO dao = new ItemDAO();
+				list = dao.findByCategoryId(categoryId);
+			} catch (NumberFormatException | DAOException e) {
+				e.printStackTrace();
+			}
+			// 次画面に引き継ぐ値をスコープに登録
+			request.setAttribute("title", "データベース連携サンプル");
+			request.setAttribute("category", "選択されたカテゴリ");
+			request.setAttribute("count", list.size());
+			request.setAttribute("items", list);
 			// 遷移先JSP
 			nextJSP = "/WEB-INF/view/sample/db_sample.jsp";
 		}

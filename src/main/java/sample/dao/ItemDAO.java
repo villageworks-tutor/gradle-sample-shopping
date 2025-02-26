@@ -21,6 +21,10 @@ public class ItemDAO {
 	private static final String DB_USER = "student";
 	private static final String DB_PASWORD = "himitu";
 	
+	/**
+	 * コンストラクタ
+	 * @throws DAOException
+	 */
 	public ItemDAO() throws DAOException {
 		try {
 			Class.forName(JDBC_DRIVER);
@@ -67,6 +71,33 @@ public class ItemDAO {
 		bean.setName(rs.getString("name"));
 		bean.setPrice(rs.getInt("price"));
 		return bean;
+	}
+
+	/**
+	 * 指定された商品カテゴリに含まれる商品を取得する
+	 * @param categoryId 対象カテゴリ
+	 * @return 商品カテゴリに含まれる商品リスト（該当商品がない場合には空リスト）
+	 * @throws DAOException
+	 */
+	public List<Item> findByCategoryId(int categoryId) throws DAOException {
+		try (Connection con = DriverManager.getConnection(DB_URL, DB_USER, DB_PASWORD);
+			 PreparedStatement pstmt = con.prepareStatement("SELECT * FROM items WHERE category_id = ? ORDER BY id");
+			) {
+			// プレースホルダにパラメータを設定
+			pstmt.setInt(1, categoryId);
+			// SQLの実行と結果セットの取得
+			List<Item> list = new ArrayList<Item>();
+			try (ResultSet rs = pstmt.executeQuery();) {
+				while (rs.next()) {
+					list.add(convertToBean(rs));
+				}
+			}
+			// 商品リストの返却
+			return list;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new DAOException("レコードの取得に失敗しました。");
+		}
 	}
 	
 }

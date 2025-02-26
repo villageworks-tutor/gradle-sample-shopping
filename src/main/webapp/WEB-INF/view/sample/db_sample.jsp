@@ -8,6 +8,12 @@
 <body>
 	<header>
 		<h1>${title}</h1>
+		<div>
+			<a href="sample?action=list">すべての商品</a>
+			<c:forEach items="${applicationScope.categories}" var="category">
+			| <a href="sample?action=category&categoryId=${pageScope.category.id}">${pageScope.category.name}</a>
+			</c:forEach>
+		</div>
 	</header>
 	<main>
 		<article>
