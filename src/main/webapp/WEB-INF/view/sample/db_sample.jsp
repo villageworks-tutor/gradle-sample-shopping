@@ -4,6 +4,7 @@
 <head>
 	<meta charset="UTF-8">
 	<title>${title}</title>
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/style.css" />
 </head>
 <body id="db_sample">
 	<header>

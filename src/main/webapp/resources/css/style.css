@@ -1,0 +1,8 @@
+html {
+  font-size: 62.5%;
+}
+html body {
+  color: dimgray; /* #696969; */
+  background-color: bisque;
+  font-size: 1.4rem;
+}
