@@ -1,0 +1,18 @@
+@charset "utf-8";
+@use "../common/" as common;
+
+.menu {
+	&__list {
+		@include common.initBoxModel();
+		list-style-type: none;
+	}
+	&__item {
+		@include common.initBoxModel();
+		display: inline;
+		&:not(:first-child) {
+			&:before {
+				content: "| ";
+			}
+		}
+	}
+}

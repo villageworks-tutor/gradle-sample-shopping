@@ -1,0 +1,13 @@
+@charset "utf-8";
+@use "../common/" as common;
+
+html {
+	font-size: common.$default-font-scale;
+	body {
+		color: common.$default-font-color;
+		font-size: common.$default-font-size;
+		p {
+			@include common.initBoxModel();
+		}
+	}
+}

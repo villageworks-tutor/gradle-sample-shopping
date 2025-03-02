@@ -23,6 +23,7 @@ class ShoppingTest {
 
 	@Test
 	void test() {
+		// 初期画面表示のテスト
 		open("http://localhost:8080/sample-shopping");
 		$("body#view_top").should(visible);
 	}

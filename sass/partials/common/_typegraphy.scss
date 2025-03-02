@@ -1,0 +1,12 @@
+@charset "utf-8";
+
+$default-font-scale: 62.5%;
+$default-font-size: 1.4rem;
+
+$h1-font-scale: 1.80;
+$h2-font-scale: 1.50;
+$h3-font-scale: 1.25;
+
+$h1-font-size: $default-font-size * $h1-font-scale;
+$h2-font-size: $default-font-size * $h2-font-scale;
+$h3-font-size: $default-font-size * $h3-font-scale;
