@@ -22,5 +22,4 @@ html body p {
 }
 .menu__item:not(:first-child):before {
   content: "| ";
-}
-/*# sourceMappingURL=style.css.map */
+}/*# sourceMappingURL=style.css.map */
