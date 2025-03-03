@@ -1,11 +1,12 @@
 plugins {
-	 id 'war'
+	id 'war'
 	id 'eclipse'
 	id 'eclipse-wtp'
 }
 
-sourceCompatibility = JavaVersion.VERSION_21
-targetCompatibility = JavaVersion.VERSION_21
+//// 以下の設定はGradle9で廃止になる予定
+//sourceCompatibility = JavaVersion.VERSION_21
+//targetCompatibility = JavaVersion.VERSION_21
 
 java {
 	toolchain {
